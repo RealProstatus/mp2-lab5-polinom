@@ -55,4 +55,40 @@ public:
 			delete tmp;
 		}
 	}
+
+	//-------------------------------------------------------------------
+
+	void insertFirst(T element) {
+		Node<T>* newnode = new Node<T>;
+		newnode->val = element;
+		newnode->pNext = pFirst;
+
+		if (pFirst == nullptr)
+			pLast = newnode;
+
+		pFirst = newnode;
+		size++;
+	}
+
+	void deleteFirst() {
+		if (size == 0) return;
+
+		Node<T>* tmp = pFirst;
+		pFirst = tmp->pNext;
+		delete tmp;
+
+		if (pFirst == nullptr)
+			pLast = nullptr;
+
+		size--;
+	}
+
+	void insertLast(T element) { //TODO
+		Node<T>* newnode = new Node<T>;
+		newnode->val = element;
+		newnode->pNext = nullptr;
+
+		pLast->pNext = newnode;
+		pLast = newnode;
+	}
 };
