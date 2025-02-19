@@ -67,6 +67,7 @@ public:
 			pLast = newnode;
 
 		pFirst = newnode;
+
 		size++;
 	}
 
@@ -83,12 +84,32 @@ public:
 		size--;
 	}
 
-	void insertLast(T element) { //TODO
+	void insertLast(T element) { 
 		Node<T>* newnode = new Node<T>;
 		newnode->val = element;
 		newnode->pNext = nullptr;
 
 		pLast->pNext = newnode;
 		pLast = newnode;
+
+		if (size == 0) {
+			pFirst = newnode;
+		}
+
+		size++;
+	}
+
+	void deleteLast() {
+		if (size == 0) return;
+
+		Node<T>* cur = pFirst;
+		while (cur->pNext != pLast) {
+			cur = cur->pNext;
+		}
+
+		delete cur->pNext;
+		cur->pNext = nulltr;
+		pLast = cur;
+		size--;
 	}
 };

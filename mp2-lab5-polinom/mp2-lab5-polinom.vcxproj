@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Polinom.h" />
     <ClInclude Include="TList.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
