@@ -20,7 +20,7 @@ public:
 	TList(const TList<T>& l) {
 		size = l.size;
 
-		Node<T> stmp = l.pFirst;
+		Node<T>* stmp = l.pFirst;
 		if (stmp != nullptr) {
 			pFirst = new Node<T>;
 			pFirst->val = stmp->val;
@@ -30,10 +30,10 @@ public:
 
 			Node<T>* prev = pFirst;
 			while (stmp != nullptr) {
-				Node<T> newnode = new Node<T>;
+				Node<T>* newnode = new Node<T>;
 
 				newnode->val = stmp->val;
-				newnode->pNext - nullptr;
+				newnode->pNext = nullptr;
 
 				prev->pNext = newnode;
 
@@ -54,6 +54,9 @@ public:
 			pFirst = pFirst->pNext;
 			delete tmp;
 		}
+		
+		pLast = nullptr;
+		size = 0;
 	}
 
 	//-------------------------------------------------------------------
@@ -89,27 +92,31 @@ public:
 		newnode->val = element;
 		newnode->pNext = nullptr;
 
-		pLast->pNext = newnode;
-		pLast = newnode;
-
-		if (size == 0) {
+		if (pLast != nullptr)
+			pLast->pNext = newnode;
+		else
 			pFirst = newnode;
-		}
 
+		pLast = newnode;
 		size++;
 	}
 
 	void deleteLast() {
 		if (size == 0) return;
 
-		Node<T>* cur = pFirst;
-		while (cur->pNext != pLast) {
-			cur = cur->pNext;
+		if (size == 1) {
+			delete pFirst;
+			pFirst = pLast = nullptr;
 		}
-
-		delete cur->pNext;
-		cur->pNext = nulltr;
-		pLast = cur;
+		else {
+			Node<T>* cur = pFirst;
+			while (cur->pNext != pLast) 
+				cur = cur->pNext;
+			
+			delete cur->pNext;
+			cur->pNext = nullptr;
+			pLast = cur;
+		}
 		size--;
 	}
 };
