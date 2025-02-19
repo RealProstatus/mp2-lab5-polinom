@@ -26,7 +26,7 @@ public:
 			pFirst->val = stmp->val;
 			pFirst->pNext = nullptr;
 
-			stmp = stmp.pNext;
+			stmp = stmp->pNext;
 
 			Node<T>* prev = pFirst;
 			while (stmp != nullptr) {
@@ -60,6 +60,10 @@ public:
 	}
 
 	//-------------------------------------------------------------------
+
+	int getSize() const {
+		return size;
+	}
 
 	void insertFirst(T element) {
 		Node<T>* newnode = new Node<T>;

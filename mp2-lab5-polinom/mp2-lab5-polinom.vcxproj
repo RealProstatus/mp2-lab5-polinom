@@ -22,6 +22,9 @@
     <ClInclude Include="Polinom.h" />
     <ClInclude Include="TList.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Polinom.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

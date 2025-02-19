@@ -24,7 +24,7 @@
     <ProjectGuid>{d6fc6baf-50ba-4ae2-9795-60a10ecd13be}</ProjectGuid>
     <RootNamespace>TestStack</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>TestPolinom</ProjectName>
+    <ProjectName>GoogleTests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="gtest-all.cc" />
     <ClCompile Include="test_main.cpp" />
+    <ClCompile Include="test_tlist.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mp2-lab4-queue\mp2-lab4-queue.vcxproj">
