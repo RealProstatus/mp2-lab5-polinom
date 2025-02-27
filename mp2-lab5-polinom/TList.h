@@ -10,10 +10,11 @@ template<class T>
 class TList {
 protected:
 	Node<T>* pFirst, * pLast;
+	Node<T>* pCurrentNode, * pPreviousNode;
 	int size;
 public:
 	TList() {
-		pFirst = pLast = nullptr;
+		pFirst = pLast = pCurrentNode = pPreviousNode = nullptr;
 		size = 0;
 	}
 
@@ -122,5 +123,24 @@ public:
 			pLast = cur;
 		}
 		size--;
+	}
+
+	//-------------------------------------------------------------------
+
+	void reset() {
+		pPreviousNode = nullptr;
+		pCurrentNode = pFirst;
+	}
+
+	bool isEnd() const {
+		return pCurrentNode->pNext == nullptr;
+	}
+
+	void goNext() {
+		if (!(this->isEnd)) {
+			pPreviousNode = pCurrentNode;
+			pCurrentNode = pCurrentNode->pNext;
+		}
+		else return;
 	}
 };
