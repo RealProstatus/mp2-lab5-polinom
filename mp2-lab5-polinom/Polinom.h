@@ -33,5 +33,4 @@ public:
 
 	Polinom& operator+=(Monom m);
 	Polinom operator+(Monom m);
-	Polinom
 };
