@@ -21,6 +21,8 @@ public:
 	TList(const TList<T>& l) {
 		size = l.size;
 
+		pCurrentNode = pPreviousNode = nullptr;
+
 		Node<T>* stmp = l.pFirst;
 		if (stmp != nullptr) {
 			pFirst = new Node<T>;
@@ -55,9 +57,6 @@ public:
 			pFirst = pFirst->pNext;
 			delete tmp;
 		}
-		
-		pLast = nullptr;
-		size = 0;
 	}
 
 	//-------------------------------------------------------------------
@@ -84,6 +83,12 @@ public:
 
 		Node<T>* tmp = pFirst;
 		pFirst = tmp->pNext;
+
+		if (tmp == pCurrentNode || tmp == pPreviousNode) {
+			pCurrentNode = pFirst;
+			pPreviousNode = nullptr;
+		}
+
 		delete tmp;
 
 		if (pFirst == nullptr)
@@ -101,7 +106,7 @@ public:
 			pLast->pNext = newnode;
 		else
 			pFirst = newnode;
-
+		
 		pLast = newnode;
 		size++;
 	}
@@ -112,6 +117,7 @@ public:
 		if (size == 1) {
 			delete pFirst;
 			pFirst = pLast = nullptr;
+			pPreviousNode = pCurrentNode = nullptr;
 		}
 		else {
 			Node<T>* cur = pFirst;
@@ -121,6 +127,7 @@ public:
 			delete cur->pNext;
 			cur->pNext = nullptr;
 			pLast = cur;
+			if (pPreviousNode == pLast) pCurrentNode = nullptr;
 		}
 		size--;
 	}
@@ -133,11 +140,11 @@ public:
 	}
 
 	bool isEnd() const {
-		return pCurrentNode->pNext == nullptr;
+		return pCurrentNode == nullptr;
 	}
 
 	void goNext() {
-		if (!(this->isEnd)) {
+		if (pCurrentNode != nullptr) {
 			pPreviousNode = pCurrentNode;
 			pCurrentNode = pCurrentNode->pNext;
 		}

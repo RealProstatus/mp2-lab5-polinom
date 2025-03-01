@@ -72,7 +72,7 @@ TEST(TListTest, ñopy_ñonstructor) {
     EXPECT_EQ(copy.getSize(), 1);
 }
 
-TEST(TListTest, DestructorNoLeaks) {
+TEST(TListTest, destructor_has_no_leaks) {
     TList<int>* list = new TList<int>();
     list->insertLast(1);
     list->insertLast(2);
@@ -90,7 +90,7 @@ TEST(TListTest, combined_operations) {
     EXPECT_EQ(list.getSize(), 1);
 }
 
-TEST(TListTest, DeleteFromEmptyList) {
+TEST(TListTest, delete_from_empty_list) {
     TList<int> list;
     list.deleteFirst();
     list.deleteLast();
