@@ -97,10 +97,45 @@ public:
 		size--;
 	}
 
+	void insertCurrent(T elem) {
+		if (pCurrentNode == pFirst) {
+			insertFirst(elem);
+			pPreviousNode = pFirst; 
+			return;
+		}
+		if (pPreviousNode == pLast) {
+			insertLast(elem);
+			pPreviousNode = pLast;
+			return;
+		}
+
+		Node<T>* newnode = new Node<T>{ elem,pCurrentNode };
+		pPreviousNode->pNext = newnode;
+		pPreviousNode = pPreviousNode->pNext;
+		size++;
+	}
+
+	void deleteCurrent() {
+		if (pCurrentNode == pFirst) {
+			deleteFirst();
+			pCurrentNode = pFirst;
+			return;
+		}
+		if (pCurrentNode != nullptr) {
+			Node<T>* tmp = pCurrentNode;
+			pCurrentNode = pCurrentNode->pNext;
+			delete tmp;
+
+			pPreviousNode->pNext = pCurrentNode;
+			if (pCurrentNode == nullptr)
+				pLast = pPreviousNode;
+			
+			size--;
+		}
+	}
+
 	void insertLast(T element) { 
-		Node<T>* newnode = new Node<T>;
-		newnode->val = element;
-		newnode->pNext = nullptr;
+		Node<T>* newnode = new Node<T>{element, nullptr};
 
 		if (pLast != nullptr)
 			pLast->pNext = newnode;
