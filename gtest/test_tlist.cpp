@@ -1,4 +1,4 @@
-#include"gtest.h"
+Ôªø#include"gtest.h"
 #include"../mp2-lab5-polinom/TList.h"
 
 TEST(TList, empty_list_creation) {
@@ -62,7 +62,7 @@ TEST(TListTest, delete_last_single_element) {
     EXPECT_EQ(list.getSize(), 0);
 }
 
-TEST(TListTest, Òopy_Òonstructor) {
+TEST(TListTest, —Åopy_—Åonstructor) {
     TList<int> original;
     original.insertLast(1);
     original.insertLast(2);
@@ -95,4 +95,119 @@ TEST(TListTest, delete_from_empty_list) {
     list.deleteFirst();
     list.deleteLast();
     EXPECT_EQ(list.getSize(), 0);
+}
+
+TEST(TListTest, insert_current_in_empty) {
+    TList<int> list;
+    list.insertCurrent(10);
+    list.reset();
+
+    EXPECT_EQ(list.getSize(), 1);
+    EXPECT_EQ(list.getCurrentValue(), 10);
+}
+
+TEST(TListTest, InsertCurrentAtFirstPosition) {
+    TList<int> list;
+    list.insertFirst(20);
+    list.reset();
+
+    list.insertCurrent(10);
+
+    EXPECT_EQ(list.getSize(), 2);
+    list.reset();
+    EXPECT_EQ(list.getCurrentValue(), 10);
+    list.goNext();
+    EXPECT_EQ(list.getCurrentValue(), 20);
+}
+
+TEST(TListTest, InsertCurrentInMiddle) {
+    TList<int> list;
+    list.insertLast(10);
+    list.insertLast(30);
+    list.reset();
+    list.goNext();
+
+    list.insertCurrent(20);
+
+    EXPECT_EQ(list.getSize(), 3);
+    list.reset();
+    EXPECT_EQ(list.getCurrentValue(), 10);
+    list.goNext();
+    EXPECT_EQ(list.getCurrentValue(), 20);
+    list.goNext();
+    EXPECT_EQ(list.getCurrentValue(), 30);
+}
+
+TEST(TListTest, DeleteCurrentWhenSingleElement) {
+    TList<int> list;
+    list.insertCurrent(42);
+
+    list.reset();
+    list.deleteCurrent();
+
+    EXPECT_EQ(list.getSize(), 0);
+    EXPECT_TRUE(list.isEnd());
+}
+
+TEST(TListTest, DeleteFirstElement) {//
+    TList<int> list;
+    list.insertLast(10);
+    list.insertLast(20);
+    list.reset();
+
+    list.deleteCurrent();
+
+    EXPECT_EQ(list.getSize(), 1);
+    EXPECT_EQ(list.getCurrentValue(), 20);
+}
+
+TEST(TListTest, DeleteMiddleElement) {
+    TList<int> list;
+    list.insertLast(10);
+    list.insertLast(20);
+    list.insertLast(30);
+    list.reset();
+    list.goNext();
+
+    list.deleteCurrent();
+
+    EXPECT_EQ(list.getSize(), 2);
+    EXPECT_EQ(list.getCurrentValue(), 30);
+    list.reset();
+    EXPECT_EQ(list.getCurrentValue(), 10);
+    list.goNext();
+    EXPECT_EQ(list.getCurrentValue(), 30);
+}
+
+TEST(TListTest, DeleteLastElement) {
+    TList<int> list;
+    list.insertLast(10);
+    list.insertLast(20);
+    list.reset();
+    list.goNext();
+
+    list.deleteCurrent();
+
+    EXPECT_EQ(list.getSize(), 1);
+    EXPECT_TRUE(list.isEnd());
+}
+
+TEST(TListTest, CombinedOperations) {
+    TList<int> list;
+    list.insertCurrent(30);
+    list.reset();
+    list.insertCurrent(10);
+    
+    list.goNext();
+    list.insertCurrent(20);
+
+    list.reset();
+    list.goNext();
+    list.deleteCurrent();
+
+    EXPECT_EQ(list.getSize(), 2);
+    list.reset();
+    EXPECT_EQ(list.getCurrentValue(), 10);
+    list.goNext();
+    EXPECT_EQ(list.getCurrentValue(), 20);
 }

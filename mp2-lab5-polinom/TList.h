@@ -115,6 +115,12 @@ public:
 		size++;
 	}
 
+	T getCurrentValue() {
+		if (pCurrentNode != nullptr) {
+			return pCurrentNode->val;
+		}
+	}
+
 	void deleteCurrent() {
 		if (pCurrentNode == pFirst) {
 			deleteFirst();
