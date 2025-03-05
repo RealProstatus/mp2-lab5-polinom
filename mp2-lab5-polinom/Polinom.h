@@ -24,6 +24,12 @@ struct Monom {
 	bool operator!=(const Monom& m) const {
 		return (x * 100 + y * 10 + z) != (m.x * 100 + m.y * 10 + m.z);
 	}
+	Monom& operator*=(const Monom& m) {
+		coeff *= m.coeff;
+		x += m.x;
+		y += m.y;
+		z += m.z;
+	}
 };
 
 class Polinom : public TList<Monom> {
@@ -32,6 +38,7 @@ public:
 	Polinom(Monom* p, int size);
 
 	Polinom& operator+=(Monom m);
-	Polinom operator+(Monom m);
-	Polinom
+	//Polinom operator+(Monom m);
+	Polinom& operator+=(Polinom& p);
+	Polinom& operator*=(double c);
 };

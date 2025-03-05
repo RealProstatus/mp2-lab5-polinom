@@ -51,3 +51,74 @@ Polinom& Polinom::operator+=(Monom m) {
 		}
 	}
 }
+
+Polinom& Polinom::operator+=(Polinom& p) {
+	reset(); p.reset();
+
+	while (!(isEnd()) || !(p.isEnd())) {
+		if (pCurrentNode->val > p.pCurrentNode->val) {
+			goNext();
+		}
+		else {
+			if (pCurrentNode->val < p.pCurrentNode->val) {
+				insertCurrent(p.pCurrentNode->val);
+				goNext();
+			}
+			else {
+				pCurrentNode->val.coeff += p.pCurrentNode->val.coeff;
+
+				if (pCurrentNode->val.coeff == 0) {
+					deleteCurrent();
+					p.goNext();
+				}
+				else {
+					p.goNext();
+					goNext();
+				}
+			}
+		}
+	}
+}
+
+Polinom& Polinom::operator*=(double c) {
+	if (c == 0) {
+		clear();
+		return *this;
+	}
+
+	if (c == 1)
+		return *this;
+
+	Node<Monom>* tmp = pCurrentNode;
+	Node<Monom>* tmp1 = pPreviousNode;
+
+	reset();
+	while (!(isEnd())) {
+		pCurrentNode->val.coeff *= c;
+		goNext();
+	}
+	
+	pCurrentNode = tmp;
+	pPreviousNode = tmp1;
+}
+
+Polinom& Polinom::operator*=(Monom m) {
+	if (m.coeff == 0) {
+		clear();
+		return *this;
+	}
+
+	Node<Monom>* tmp = pCurrentNode;
+	Node<Monom>* tmp1 = pPreviousNode;
+
+	reset();
+	while (!(isEnd())) {
+		pCurrentNode->val *= m;
+		goNext();
+	}
+
+	pCurrentNode = tmp;
+	pPreviousNode = tmp1;
+
+	return *this;
+}

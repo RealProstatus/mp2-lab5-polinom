@@ -65,6 +65,16 @@ public:
 		return size;
 	}
 
+	void clear() {
+		while (pFirst != nullptr) {
+			Node<T>* tmp = pFirst;
+			pFirst = pFirst->pNext;
+			delete tmp;
+		}
+		pFirst = pLast = nullptr;
+		pCurrentNode = pPreviousNode = nullptr;
+	}
+
 	void insertFirst(T element) {
 		Node<T>* newnode = new Node<T>;
 		newnode->val = element;
