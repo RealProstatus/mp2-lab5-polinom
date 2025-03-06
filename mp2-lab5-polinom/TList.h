@@ -51,6 +51,42 @@ public:
 		}
 	}
 
+	TList<T>& operator=(const TList<T>& l) {
+		size = l.size;
+
+		Node<T>* stmp = l.pFirst;
+		if (stmp != nullptr) {
+			pFirst = new Node<T>;
+			pFirst->val = stmp->val;
+			pFirst->pNext = nullptr;
+
+			stmp = stmp->pNext;
+
+			Node<T>* prev = pFirst;
+			while (stmp != nullptr) {
+				Node<T>* newnode = new Node<T>;
+
+				newnode->val = stmp->val;
+				newnode->pNext = nullptr;
+
+				prev->pNext = newnode;
+
+				stmp = stmp->pNext;
+				prev = prev->pNext;
+			}
+
+			pLast = prev;
+		}
+		else {
+			pFirst = pLast = nullptr;
+		}
+
+		pPreviousNode = l.pPreviousNode;
+		pCurrentNode = l.pCurrentNode;
+		
+		return *this;
+	}
+
 	~TList() {
 		while (pFirst != nullptr) {
 			Node<T>* tmp = pFirst;
@@ -73,6 +109,7 @@ public:
 		}
 		pFirst = pLast = nullptr;
 		pCurrentNode = pPreviousNode = nullptr;
+		size = 0;
 	}
 
 	void insertFirst(T element) {

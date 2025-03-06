@@ -1,5 +1,7 @@
 #include"Polinom.h"
 
+Polinom::Polinom() { }
+
 Polinom::Polinom(Monom* p, int size) {
 	for (int i = 0; i < size; i++)
 		insertLast(p[i]);
@@ -123,6 +125,37 @@ Polinom& Polinom::operator*=(Monom m) {
 	return *this;
 }
 
-Polinom& Polinom::operator*=(Polinom& p) {
+Polinom Polinom::operator* (Monom m) {
+	Polinom res(*this);
 
+	if (m.coeff == 0) {
+		res.clear();
+		return res;
+	}
+
+	res.reset();
+	while (!(res.isEnd())) {
+		res.pCurrentNode->val *= m;
+		goNext();
+	}
+
+	return res;
+}
+
+Polinom& Polinom::operator*=(Polinom& p) {
+	Node<Monom>* tmp = p.pCurrentNode;
+	Node<Monom>* tmp1 = p.pPreviousNode;
+
+	Polinom res(*this);
+	
+	p.reset();
+	this->clear();
+	for (; !(p.isEnd()); p.goNext()) {
+		*this += res * p.pCurrentNode->val;
+	}
+
+	p.pCurrentNode = tmp;
+	p.pPreviousNode = tmp1;
+
+	return res;
 }
