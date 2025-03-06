@@ -122,3 +122,7 @@ Polinom& Polinom::operator*=(Monom m) {
 
 	return *this;
 }
+
+Polinom& Polinom::operator*=(Polinom& p) {
+
+}
