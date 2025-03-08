@@ -29,6 +29,8 @@ struct Monom {
 		x += m.x;
 		y += m.y;
 		z += m.z;
+
+		return *this;
 	}
 };
 
@@ -37,8 +39,6 @@ public:
 	//for debug and tests only
 	Polinom();
 	Polinom(Monom* p, int size);
-
-	Polinom& operator=(const Polinom& p);
 
 	Polinom& operator+=(Monom m);
 	Polinom& operator+=(Polinom& p);

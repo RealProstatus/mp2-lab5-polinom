@@ -80,6 +80,7 @@ Polinom& Polinom::operator+=(Polinom& p) {
 			}
 		}
 	}
+	return *this;
 }
 
 Polinom& Polinom::operator*=(double c) {
@@ -143,19 +144,14 @@ Polinom Polinom::operator* (Monom m) {
 }
 
 Polinom& Polinom::operator*=(Polinom& p) {
-	Node<Monom>* tmp = p.pCurrentNode;
-	Node<Monom>* tmp1 = p.pPreviousNode;
+	Polinom tmp(*this);
 
-	Polinom res(*this);
-	
-	p.reset();
 	this->clear();
-	for (; !(p.isEnd()); p.goNext()) {
-		*this += res * p.pCurrentNode->val;
+	p.reset();
+	while (!(p.isEnd())) {
+		Polinom tmpp = tmp * p.pCurrentNode->val;
+		*this += tmpp;
 	}
 
-	p.pCurrentNode = tmp;
-	p.pPreviousNode = tmp1;
-
-	return res;
+	return *this;
 }
