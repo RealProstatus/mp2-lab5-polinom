@@ -52,7 +52,17 @@ public:
 	}
 
 	TList<T>& operator=(const TList<T>& l) {
-		size = l.size;
+		if (this == &l) {
+			return *this;
+		}
+
+		while (pFirst != nullptr) {
+			Node<T>* tmp = pFirst;
+			pFirst = pFirst->pNext;
+			delete tmp;
+		}
+		pFirst = pLast = pCurrentNode = pPreviousNode = nullptr;
+		size = 0;
 
 		Node<T>* stmp = l.pFirst;
 		if (stmp != nullptr) {
@@ -74,15 +84,9 @@ public:
 				stmp = stmp->pNext;
 				prev = prev->pNext;
 			}
-
 			pLast = prev;
+			size = l.size;
 		}
-		else {
-			pFirst = pLast = nullptr;
-		}
-
-		pPreviousNode = l.pPreviousNode;
-		pCurrentNode = l.pCurrentNode;
 		
 		return *this;
 	}

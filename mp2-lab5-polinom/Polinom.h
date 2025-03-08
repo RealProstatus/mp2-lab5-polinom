@@ -38,6 +38,8 @@ public:
 	Polinom();
 	Polinom(Monom* p, int size);
 
+	Polinom& operator=(const Polinom& p);
+
 	Polinom& operator+=(Monom m);
 	Polinom& operator+=(Polinom& p);
 	Polinom& operator*=(double c);
