@@ -28,6 +28,7 @@ Polinom& Polinom::operator+=(Monom m) {
 				if (m != pCurrentNode->val) {
 					Node<Monom>* tmp = new Node<Monom>{ m,pCurrentNode };
 					pPreviousNode->pNext = tmp;
+					size++;
 					return *this;
 				}
 				else {
@@ -46,6 +47,9 @@ Polinom& Polinom::operator+=(Monom m) {
 						delete pPreviousNode->pNext;
 						pPreviousNode->pNext = pCurrentNode;
 						size--;
+						return *this;
+					}
+					else {
 						return *this;
 					}
 				}

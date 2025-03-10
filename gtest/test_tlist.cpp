@@ -6,20 +6,20 @@ TEST(TList, empty_list_creation) {
     ASSERT_NO_FATAL_FAILURE(TList<int> list2);
 }
 
-TEST(TListTest, insert_first_empty) {
+TEST(TList, insert_first_empty) {
     TList<int> list;
     ASSERT_NO_THROW(list.insertFirst(42));
     EXPECT_EQ(list.getSize(), 1);
 }
 
-TEST(TListTest, insert_first_not_empty) {
+TEST(TList, insert_first_not_empty) {
     TList<int> list;
     list.insertFirst(10);
     ASSERT_NO_THROW(list.insertFirst(20));
     EXPECT_EQ(list.getSize(), 2);
 }
 
-TEST(TListTest, delete_first_not_empty) {
+TEST(TList, delete_first_not_empty) {
     TList<int> list;
     list.insertFirst(10);
     list.insertFirst(20);
@@ -27,27 +27,27 @@ TEST(TListTest, delete_first_not_empty) {
     EXPECT_EQ(list.getSize(), 1);
 }
 
-TEST(TListTest, delete_first_single_element) {
+TEST(TList, delete_first_single_element) {
     TList<int> list;
     list.insertFirst(100);
     ASSERT_NO_THROW(list.deleteFirst());
     EXPECT_EQ(list.getSize(), 0);
 }
 
-TEST(TListTest, insert_last_empty) {
+TEST(TList, insert_last_empty) {
     TList<int> list;
     ASSERT_NO_THROW(list.insertLast(99));
     EXPECT_EQ(list.getSize(), 1);
 }
 
-TEST(TListTest, insert_last_not_empty) {
+TEST(TList, insert_last_not_empty) {
     TList<int> list;
     list.insertLast(10);
     ASSERT_NO_THROW(list.insertLast(20));
     EXPECT_EQ(list.getSize(), 2);
 }
 
-TEST(TListTest, delete_last_two_elements) {
+TEST(TList, delete_last_two_elements) {
     TList<int> list;
     list.insertLast(10);
     list.insertLast(20);
@@ -55,14 +55,14 @@ TEST(TListTest, delete_last_two_elements) {
     EXPECT_EQ(list.getSize(), 1);
 }
 
-TEST(TListTest, delete_last_single_element) {
+TEST(TList, delete_last_single_element) {
     TList<int> list;
     list.insertLast(55);
     ASSERT_NO_THROW(list.deleteLast());
     EXPECT_EQ(list.getSize(), 0);
 }
 
-TEST(TListTest, сopy_сonstructor) {
+TEST(TList, сopy_сonstructor) {
     TList<int> original;
     original.insertLast(1);
     original.insertLast(2);
@@ -72,7 +72,7 @@ TEST(TListTest, сopy_сonstructor) {
     EXPECT_EQ(copy.getSize(), 1);
 }
 
-TEST(TListTest, destructor_has_no_leaks) {
+TEST(TList, destructor_has_no_leaks) {
     TList<int>* list = new TList<int>();
     list->insertLast(1);
     list->insertLast(2);
@@ -80,7 +80,7 @@ TEST(TListTest, destructor_has_no_leaks) {
     SUCCEED();
 }
 
-TEST(TListTest, combined_operations) {
+TEST(TList, combined_operations_1) {
     TList<int> list;
     list.insertFirst(3);
     list.insertLast(4);
@@ -90,14 +90,14 @@ TEST(TListTest, combined_operations) {
     EXPECT_EQ(list.getSize(), 1);
 }
 
-TEST(TListTest, delete_from_empty_list) {
+TEST(TList, delete_from_empty_list) {
     TList<int> list;
     list.deleteFirst();
     list.deleteLast();
     EXPECT_EQ(list.getSize(), 0);
 }
 
-TEST(TListTest, insert_current_in_empty) {
+TEST(TList, insert_current_in_empty) {
     TList<int> list;
     list.insertCurrent(10);
     list.reset();
@@ -106,7 +106,7 @@ TEST(TListTest, insert_current_in_empty) {
     EXPECT_EQ(list.getCurrentValue(), 10);
 }
 
-TEST(TListTest, InsertCurrentAtFirstPosition) {
+TEST(TList, insert_current_at_first_position) {
     TList<int> list;
     list.insertFirst(20);
     list.reset();
@@ -120,7 +120,7 @@ TEST(TListTest, InsertCurrentAtFirstPosition) {
     EXPECT_EQ(list.getCurrentValue(), 20);
 }
 
-TEST(TListTest, InsertCurrentInMiddle) {
+TEST(TList, insert_current_in_middle) {
     TList<int> list;
     list.insertLast(10);
     list.insertLast(30);
@@ -138,7 +138,7 @@ TEST(TListTest, InsertCurrentInMiddle) {
     EXPECT_EQ(list.getCurrentValue(), 30);
 }
 
-TEST(TListTest, DeleteCurrentWhenSingleElement) {
+TEST(TList, delete_current_when_single_element) {
     TList<int> list;
     list.insertCurrent(42);
 
@@ -149,7 +149,7 @@ TEST(TListTest, DeleteCurrentWhenSingleElement) {
     EXPECT_TRUE(list.isEnd());
 }
 
-TEST(TListTest, DeleteFirstElement) {//
+TEST(TList, delete_first_element) {
     TList<int> list;
     list.insertLast(10);
     list.insertLast(20);
@@ -161,7 +161,7 @@ TEST(TListTest, DeleteFirstElement) {//
     EXPECT_EQ(list.getCurrentValue(), 20);
 }
 
-TEST(TListTest, DeleteMiddleElement) {
+TEST(TList, delete_middle_element) {
     TList<int> list;
     list.insertLast(10);
     list.insertLast(20);
@@ -179,7 +179,7 @@ TEST(TListTest, DeleteMiddleElement) {
     EXPECT_EQ(list.getCurrentValue(), 30);
 }
 
-TEST(TListTest, DeleteLastElement) {
+TEST(TList, delete_last_element) {
     TList<int> list;
     list.insertLast(10);
     list.insertLast(20);
@@ -192,7 +192,7 @@ TEST(TListTest, DeleteLastElement) {
     EXPECT_TRUE(list.isEnd());
 }
 
-TEST(TListTest, CombinedOperations) {
+TEST(TList, combined_operations_2) {
     TList<int> list;
     list.insertCurrent(30);
     list.reset();
