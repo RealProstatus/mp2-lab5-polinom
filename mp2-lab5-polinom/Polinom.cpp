@@ -133,7 +133,7 @@ Polinom& Polinom::operator*=(Monom m) {
 Polinom Polinom::operator* (Monom m) {
 	Polinom res(*this);
 
-	if (m.coeff == 0) {
+	/*if (m.coeff == 0) {
 		res.clear();
 		return res;
 	}
@@ -142,7 +142,9 @@ Polinom Polinom::operator* (Monom m) {
 	while (!(res.isEnd())) {
 		res.pCurrentNode->val *= m;
 		goNext();
-	}
+	}*/
+
+	res *= m;
 
 	return res;
 }

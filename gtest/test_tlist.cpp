@@ -62,7 +62,7 @@ TEST(TList, delete_last_single_element) {
     EXPECT_EQ(list.getSize(), 0);
 }
 
-TEST(TList, сopy_сonstructor) {
+TEST(TList, copy_constructor) {
     TList<int> original;
     original.insertLast(1);
     original.insertLast(2);
