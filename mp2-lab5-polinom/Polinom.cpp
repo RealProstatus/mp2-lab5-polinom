@@ -61,7 +61,7 @@ Polinom& Polinom::operator+=(Monom m) {
 Polinom& Polinom::operator+=(Polinom& p) {
 	reset(); p.reset();
 
-	while (!(isEnd()) || !(p.isEnd())) {
+	while (!(isEnd()) && !(p.isEnd())) {
 		if (pCurrentNode->val > p.pCurrentNode->val) {
 			goNext();
 		}
@@ -84,6 +84,12 @@ Polinom& Polinom::operator+=(Polinom& p) {
 			}
 		}
 	}
+
+	while (!(p.isEnd())) {
+		insertLast(p.pCurrentNode->val);
+		p.goNext();
+	}
+
 	return *this;
 }
 

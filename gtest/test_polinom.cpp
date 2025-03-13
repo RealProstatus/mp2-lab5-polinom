@@ -316,3 +316,27 @@ TEST(Polinom, mul_pol_with_mon_saves_ptrs) {
 
 	EXPECT_EQ(p.getCurrentValue().coeff, 25);
 }
+
+TEST(Polinom, pol_plus_pol_at_ending) {
+	Polinom p,p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ 1,5,0,0 };
+
+	p1 += Monom{ 35,0,0,1 };
+	p1 += Monom{ 68,0,5,0 };
+	p1 += Monom{ 55.5,0,9,9 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 6);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, 1);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 28);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
+}
