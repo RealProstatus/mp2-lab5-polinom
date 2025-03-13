@@ -152,17 +152,6 @@ Polinom& Polinom::operator*=(Monom m) {
 Polinom Polinom::operator* (Monom m) {
 	Polinom res(*this);
 
-	/*if (m.coeff == 0) {
-		res.clear();
-		return res;
-	}
-
-	res.reset();
-	while (!(res.isEnd())) {
-		res.pCurrentNode->val *= m;
-		goNext();
-	}*/
-
 	res *= m;
 
 	return res;
@@ -180,4 +169,19 @@ Polinom& Polinom::operator*=(Polinom& p) {
 	}
 
 	return *this;
+}
+
+std::ostream& operator<<(std::ostream& out, Polinom& p) {
+	Node<Monom>* tmp = p.pCurrentNode;
+	Node<Monom>* tmp1 = p.pPreviousNode;
+
+	p.reset();
+	out << p.getCurrentValue();
+	p.goNext();
+	while (!(p.isEnd())) {
+		out << " + " << p.getCurrentValue();
+		p.goNext();
+	}
+
+	return out;
 }

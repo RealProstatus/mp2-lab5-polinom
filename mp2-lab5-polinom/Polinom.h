@@ -1,6 +1,7 @@
 #pragma once
 
 #include"TList.h"
+#include<iostream>
 
 struct Monom {
 	double coeff;
@@ -24,6 +25,7 @@ struct Monom {
 	bool operator!=(const Monom& m) const {
 		return (x * 100 + y * 10 + z) != (m.x * 100 + m.y * 10 + m.z);
 	}
+
 	Monom& operator*=(const Monom& m) {
 		coeff *= m.coeff;
 		x += m.x;
@@ -32,11 +34,15 @@ struct Monom {
 
 		return *this;
 	}
+
+	friend std::ostream& operator<<(std::ostream& out, Monom m) {
+		out << m.coeff << "x^" << m.x << "y^" << m.y << "z^" << m.z;
+		return out;
+	}
 };
 
 class Polinom : public TList<Monom> {
 public:
-	//for debug and tests only
 	Polinom();
 	Polinom(Monom* p, int size);
 
@@ -48,4 +54,6 @@ public:
 	Polinom& operator*=(Monom m);
 	Polinom operator* (Monom m);
 	Polinom& operator*=(Polinom& p);
+
+	friend std::ostream& operator<<(std::ostream& out, Polinom& p);
 };
