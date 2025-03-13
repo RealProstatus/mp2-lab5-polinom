@@ -340,3 +340,246 @@ TEST(Polinom, pol_plus_pol_at_ending) {
 	p.goNext();
 	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
 }
+
+TEST(Polinom, pol_plus_pol_at_ending_with_reduction) {
+	Polinom p, p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ 1,5,0,0 };
+
+	p1 += Monom{ 35,0,0,1 };
+	p1 += Monom{ 68,0,5,0 };
+	p1 += Monom{ -28,1,0,0 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 4);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, 1);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 68);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 35);
+}
+
+TEST(Polinom, pol_plus_pol_at_beginning) {
+	Polinom p, p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ 1,5,0,0 };
+
+	p1 += Monom{ 35,6,0,1 };
+	p1 += Monom{ 68,7,5,0 };
+	p1 += Monom{ 55.5,8,9,9 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 6);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 68);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 35);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 1);
+}
+
+TEST(Polinom, pol_plus_pol_in_the_middle) {
+	Polinom p, p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ -35,5,0,0 };
+
+	p1 += Monom{ 35,4,9,1 };
+	p1 += Monom{ 68,4,5,0 };
+	p1 += Monom{ 55.5,3,8,9 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 6);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, -35);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 35);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 68);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 28);
+	p.goNext();
+	EXPECT_TRUE(p.isEnd());
+}
+
+TEST(Polinom, pol_plus_pol_in_the_middle_spaced_insertion) {
+	Polinom p, p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ -35,5,0,0 };
+
+	p1 += Monom{ 35,2,0,0 };
+	p1 += Monom{ 68,4,0,0 };
+	p1 += Monom{ 55.5,4,8,9 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 6);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, -35);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 68);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 35);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 28);
+	p.goNext();
+	EXPECT_TRUE(p.isEnd());
+}
+
+TEST(Polinom, pol_plus_pol_in_the_middle_spaced_insertion_v2) {
+	Polinom p, p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ -35,5,0,0 };
+
+	p1 += Monom{ 35,2,0,0 };
+	p1 += Monom{ 68,4,0,0 };
+	p1 += Monom{ 55.5,6,0,0 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 6);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -35);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 68);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 35);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 28);
+	p.goNext();
+	EXPECT_TRUE(p.isEnd());
+}
+
+TEST(Polinom, pol_plus_pol_in_the_middle_with_reduction) {
+	Polinom p, p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ -35,5,0,0 };
+
+	p1 += Monom{ 35,5,0,0 };
+	p1 += Monom{ 68,4,5,0 };
+	p1 += Monom{ 55.5,3,8,9 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 4);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, 68);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 28);
+	p.goNext();
+	EXPECT_TRUE(p.isEnd());
+}
+
+TEST(Polinom, pol_plus_pol_in_the_middle_spaced_insertion_with_reduction) {
+	Polinom p, p1;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ -35,5,0,0 };
+
+	p1 += Monom{ 35,5,0,0 };
+	p1 += Monom{ 68,4,0,0 };
+	p1 += Monom{ 55.5,4,8,9 };
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 4);
+	p.reset();
+	EXPECT_EQ(p.getCurrentValue().coeff, 55.5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 68);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, -5);
+	p.goNext();
+	EXPECT_EQ(p.getCurrentValue().coeff, 28);
+	p.goNext();
+	EXPECT_TRUE(p.isEnd());
+}
+
+TEST(Polinom, pol_plus_pol_with_collapse) {
+	Polinom p;
+
+	p += Monom{ 28,1,0,0 };
+	p += Monom{ -5,3,0,0 };
+	p += Monom{ -35,5,0,0 };
+
+	Polinom p1(p);
+	p1 *= -1;
+
+	p += p1;
+
+	EXPECT_EQ(p.getSize(), 0);
+	p.reset();
+	EXPECT_TRUE(p.isEnd());
+}
+
+TEST(Polinom, pol_mul_pol) {
+	Polinom p1, p2;
+
+	p1 += Monom{ 5,1,1,0 };
+	p1 += Monom{ -46,0,0,2 };
+
+	p2 += Monom{ 7,1,1,5 };
+	p2 += Monom{ 48,2,2,0 };
+
+	p1 *= p2;
+
+	EXPECT_EQ(p1.getSize(), 4);
+
+	p1.reset();
+	EXPECT_EQ(p1.getCurrentValue().coeff, 240);
+	EXPECT_EQ(p1.getCurrentValue().x, 3);
+	EXPECT_EQ(p1.getCurrentValue().y, 3);
+	EXPECT_EQ(p1.getCurrentValue().z, 0);
+	p1.goNext();
+	EXPECT_EQ(p1.getCurrentValue().coeff, 35);
+	EXPECT_EQ(p1.getCurrentValue().x, 2);
+	EXPECT_EQ(p1.getCurrentValue().y, 2);
+	EXPECT_EQ(p1.getCurrentValue().z, 5);
+	p1.goNext();
+	EXPECT_EQ(p1.getCurrentValue().coeff, -2208);
+	EXPECT_EQ(p1.getCurrentValue().x, 2);
+	EXPECT_EQ(p1.getCurrentValue().y, 2);
+	EXPECT_EQ(p1.getCurrentValue().z, 2);
+	p1.goNext();
+	EXPECT_EQ(p1.getCurrentValue().coeff, -322);
+	EXPECT_EQ(p1.getCurrentValue().x, 1);
+	EXPECT_EQ(p1.getCurrentValue().y, 1);
+	EXPECT_EQ(p1.getCurrentValue().z, 7);
+	p1.goNext();
+}

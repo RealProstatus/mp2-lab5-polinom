@@ -68,7 +68,7 @@ Polinom& Polinom::operator+=(Polinom& p) {
 		else {
 			if (pCurrentNode->val < p.pCurrentNode->val) {
 				insertCurrent(p.pCurrentNode->val);
-				goNext();
+				p.goNext();
 			}
 			else {
 				pCurrentNode->val.coeff += p.pCurrentNode->val.coeff;
@@ -163,6 +163,7 @@ Polinom& Polinom::operator*=(Polinom& p) {
 	while (!(p.isEnd())) {
 		Polinom tmpp = tmp * p.pCurrentNode->val;
 		*this += tmpp;
+		p.goNext();
 	}
 
 	return *this;
