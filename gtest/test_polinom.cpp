@@ -583,3 +583,62 @@ TEST(Polinom, pol_mul_pol) {
 	EXPECT_EQ(p1.getCurrentValue().z, 7);
 	p1.goNext();
 }
+
+TEST(Polionm, pol_mul_pol_with_reduction) {
+	Polinom p1, p2;
+
+	p1 += Monom{ 1,2,1,1 };
+	p1 += Monom{ 1,1,1,2 };
+
+	p2 += Monom{ 1,2,2,1 };
+	p2 += Monom{ 1,1,2,2 };
+
+	p1 *= p2;
+
+	EXPECT_EQ(p1.getSize(), 3);
+	
+	p1.reset();
+	EXPECT_EQ(p1.getCurrentValue().coeff, 1);
+	EXPECT_EQ(p1.getCurrentValue().x, 4);
+	EXPECT_EQ(p1.getCurrentValue().y, 3);
+	EXPECT_EQ(p1.getCurrentValue().z, 2);
+	p1.goNext();
+	EXPECT_EQ(p1.getCurrentValue().coeff, 2);
+	EXPECT_EQ(p1.getCurrentValue().x, 3);
+	EXPECT_EQ(p1.getCurrentValue().y, 3);
+	EXPECT_EQ(p1.getCurrentValue().z, 3);
+	p1.goNext();
+	EXPECT_EQ(p1.getCurrentValue().coeff, 1);
+	EXPECT_EQ(p1.getCurrentValue().x, 2);
+	EXPECT_EQ(p1.getCurrentValue().y, 3);
+	EXPECT_EQ(p1.getCurrentValue().z, 4);
+	p1.goNext();
+	EXPECT_TRUE(p1.isEnd());
+}
+
+TEST(Polionm, pol_mul_pol_with_reduction_v2) {
+	Polinom p1, p2;
+
+	p1 += Monom{ 1,2,1,1 };
+	p1 += Monom{ 1,1,1,2 };
+
+	p2 += Monom{ 1,2,2,1 };
+	p2 += Monom{ -1,1,2,2 };
+
+	p1 *= p2;
+
+	EXPECT_EQ(p1.getSize(), 2);
+
+	p1.reset();
+	EXPECT_EQ(p1.getCurrentValue().coeff, 1);
+	EXPECT_EQ(p1.getCurrentValue().x, 4);
+	EXPECT_EQ(p1.getCurrentValue().y, 3);
+	EXPECT_EQ(p1.getCurrentValue().z, 2);
+	p1.goNext();
+	EXPECT_EQ(p1.getCurrentValue().coeff, -1);
+	EXPECT_EQ(p1.getCurrentValue().x, 2);
+	EXPECT_EQ(p1.getCurrentValue().y, 3);
+	EXPECT_EQ(p1.getCurrentValue().z, 4);
+	p1.goNext();
+	EXPECT_TRUE(p1.isEnd());
+}
