@@ -42,6 +42,8 @@ public:
 
 	Polinom& operator+=(Monom m);
 	Polinom& operator+=(Polinom& p);
+	Polinom& operator-=(Monom m);
+	Polinom& operator-=(Polinom p);
 	Polinom& operator*=(double c);
 	Polinom& operator*=(Monom m);
 	Polinom operator* (Monom m);

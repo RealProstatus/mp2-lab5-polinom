@@ -84,11 +84,24 @@ Polinom& Polinom::operator+=(Polinom& p) {
 			}
 		}
 	}
-
 	while (!(p.isEnd())) {
 		insertLast(p.pCurrentNode->val);
 		p.goNext();
 	}
+
+	return *this;
+}
+
+Polinom& Polinom::operator-=(Monom m) {
+	m.coeff *= -1;
+	*this += m;
+
+	return *this;
+}
+
+Polinom& Polinom::operator-=(Polinom p) {
+	p *= -1;
+	*this += p;
 
 	return *this;
 }
