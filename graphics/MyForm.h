@@ -34,6 +34,10 @@ namespace CppWinForm1 {
 				delete components;
 			}
 		}
+  private: System::Windows::Forms::TextBox^ textBox1;
+  protected:
+  private: System::Windows::Forms::Button^ button1;
+  private: System::Windows::Forms::ListBox^ listBox1;
 
 	private:
 		/// <summary>
@@ -48,12 +52,62 @@ namespace CppWinForm1 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"MyForm";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+			this->SuspendLayout();
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(13, 13);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(406, 20);
+			this->textBox1->TabIndex = 0;
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(433, 12);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(100, 20);
+			this->button1->TabIndex = 1;
+			this->button1->Text = L"=";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
+			// listBox1
+			// 
+			this->listBox1->FormattingEnabled = true;
+			this->listBox1->Location = System::Drawing::Point(13, 57);
+			this->listBox1->Name = L"listBox1";
+			this->listBox1->Size = System::Drawing::Size(520, 329);
+			this->listBox1->TabIndex = 2;
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(545, 402);
+			this->Controls->Add(this->listBox1);
+			this->Controls->Add(this->button1);
+			this->Controls->Add(this->textBox1);
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			this->ResumeLayout(false);
+			this->PerformLayout();
+
 		}
 #pragma endregion
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		try {
+			parse();
+		}
+		catch (...) {
+
+		}
+	}
+
+	System::Void parse() {
+
+	}
 	};
 }
