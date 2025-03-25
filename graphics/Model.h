@@ -2,7 +2,10 @@
 
 #include<iostream>
 #include<vector>
+
+#include"Exceptions.h"
 #include"../mp2-lab5-polinom/Polinom.h"
+#include"../mp2-lab5-polinom/Polinom.cpp"
 
 class Model {
   std::vector<Polinom> polinomVector;

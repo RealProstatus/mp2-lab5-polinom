@@ -16,7 +16,7 @@ void Model::addPolinom(int numP1, int numP2) {
     polinomVector.push_back(res);
   }
   else {
-    throw - 2531;
+    throw PoliNotInVector();
   }
 }
 
@@ -30,7 +30,7 @@ void Model::subPolinom(int numP1, int numP2) {
     polinomVector.push_back(res);
   }
   else {
-    throw - 2531;
+    throw PoliNotInVector();
   }
 }
 
@@ -44,7 +44,7 @@ void Model::mulPolinom(int numP1, int numP2) {
     polinomVector.push_back(res);
   }
   else {
-    throw - 2531;
+    throw PoliNotInVector();
   }
 }
 
