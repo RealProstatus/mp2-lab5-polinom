@@ -9,9 +9,14 @@
 
 class Model {
   std::vector<Polinom> polinomVector;
+  Polinom bufferPolinom;
 
 public:
   Model();
+
+  void addMonomToBufferPolinom(Monom m);
+  void loadBufferPolinom();
+  void clrBufferPolinom();
 
   void addPolinomToVector(Polinom p);
 

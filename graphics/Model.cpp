@@ -1,6 +1,20 @@
 #include"Model.h"
 
-Model::Model(): polinomVector() { }
+Model::Model(): polinomVector() {
+    bufferPolinom = Polinom();
+}
+
+void Model::addMonomToBufferPolinom(Monom m) {
+    bufferPolinom += m;
+}
+
+void Model::loadBufferPolinom() {
+    polinomVector.push_back(bufferPolinom);
+}
+
+void Model::clrBufferPolinom() {
+    bufferPolinom.clear();
+}
 
 void Model::addPolinomToVector(Polinom p) {
   polinomVector.push_back(p);
