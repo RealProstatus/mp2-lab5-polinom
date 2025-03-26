@@ -183,5 +183,24 @@ std::ostream& operator<<(std::ostream& out, Polinom& p) {
 		p.goNext();
 	}
 
+	p.pCurrentNode = tmp;
+	p.pPreviousNode = tmp1;
+
 	return out;
+}
+
+std::string Polinom::getString() {
+	std::ostringstream out;
+
+	Node<Monom>* tmp = pCurrentNode;
+	Node<Monom>* tmp1 = pPreviousNode;
+
+	for (reset(); !(isEnd()); goNext()) {
+		out << getCurrentValue();
+	}
+
+	pCurrentNode = tmp;
+	pPreviousNode = tmp1;
+
+	return out.str();
 }

@@ -1,5 +1,8 @@
 #pragma once
 
+#include<msclr/marshal_cppstd.h>
+#include"Model.h"
+
 namespace CppWinForm1 {
 
 	using namespace System;
@@ -18,9 +21,7 @@ namespace CppWinForm1 {
 		MyForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			model = new Model();
 		}
 
 	protected:
@@ -45,20 +46,22 @@ namespace CppWinForm1 {
 
 
 	private: System::Windows::Forms::Button^ bAddPol;
-	private: System::Windows::Forms::TextBox^ textBox1;
-	private: System::Windows::Forms::TextBox^ textBox2;
+	private: System::Windows::Forms::TextBox^ tbCoeff;
+
+	private: System::Windows::Forms::TextBox^ tbX;
+
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::TextBox^ textBox3;
+	private: System::Windows::Forms::TextBox^ tbY;
+
 	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::TextBox^ textBox4;
+	private: System::Windows::Forms::TextBox^ tbZ;
+
 
 
 
 	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
+		Model* model;
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
@@ -72,13 +75,13 @@ namespace CppWinForm1 {
 			this->bEqual = (gcnew System::Windows::Forms::Button());
 			this->lbVectorView = (gcnew System::Windows::Forms::ListBox());
 			this->bAddPol = (gcnew System::Windows::Forms::Button());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->tbCoeff = (gcnew System::Windows::Forms::TextBox());
+			this->tbX = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
+			this->tbY = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
+			this->tbZ = (gcnew System::Windows::Forms::TextBox());
 			this->SuspendLayout();
 			// 
 			// tbExpression
@@ -114,27 +117,28 @@ namespace CppWinForm1 {
 			this->bAddPol->TabIndex = 3;
 			this->bAddPol->Text = L"Добавить моном";
 			this->bAddPol->UseVisualStyleBackColor = true;
+			this->bAddPol->Click += gcnew System::EventHandler(this, &MyForm::bAddPol_Click);
 			// 
-			// textBox1
+			// tbCoeff
 			// 
-			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->tbCoeff->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox1->Location = System::Drawing::Point(260, 403);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(53, 29);
-			this->textBox1->TabIndex = 4;
-			this->textBox1->Text = L"1";
-			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->tbCoeff->Location = System::Drawing::Point(260, 403);
+			this->tbCoeff->Name = L"tbCoeff";
+			this->tbCoeff->Size = System::Drawing::Size(53, 29);
+			this->tbCoeff->TabIndex = 4;
+			this->tbCoeff->Text = L"1";
+			this->tbCoeff->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// textBox2
+			// tbX
 			// 
-			this->textBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->tbX->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox2->Location = System::Drawing::Point(332, 396);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(15, 21);
-			this->textBox2->TabIndex = 5;
-			this->textBox2->Text = L"0";
+			this->tbX->Location = System::Drawing::Point(332, 396);
+			this->tbX->Name = L"tbX";
+			this->tbX->Size = System::Drawing::Size(15, 21);
+			this->tbX->TabIndex = 5;
+			this->tbX->Text = L"0";
 			// 
 			// label1
 			// 
@@ -158,15 +162,15 @@ namespace CppWinForm1 {
 			this->label2->TabIndex = 8;
 			this->label2->Text = L"y";
 			// 
-			// textBox3
+			// tbY
 			// 
-			this->textBox3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->tbY->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox3->Location = System::Drawing::Point(366, 396);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(15, 21);
-			this->textBox3->TabIndex = 7;
-			this->textBox3->Text = L"0";
+			this->tbY->Location = System::Drawing::Point(366, 396);
+			this->tbY->Name = L"tbY";
+			this->tbY->Size = System::Drawing::Size(15, 21);
+			this->tbY->TabIndex = 7;
+			this->tbY->Text = L"0";
 			// 
 			// label3
 			// 
@@ -179,15 +183,15 @@ namespace CppWinForm1 {
 			this->label3->TabIndex = 10;
 			this->label3->Text = L"z";
 			// 
-			// textBox4
+			// tbZ
 			// 
-			this->textBox4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->tbZ->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox4->Location = System::Drawing::Point(400, 396);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(15, 21);
-			this->textBox4->TabIndex = 9;
-			this->textBox4->Text = L"0";
+			this->tbZ->Location = System::Drawing::Point(400, 396);
+			this->tbZ->Name = L"tbZ";
+			this->tbZ->Size = System::Drawing::Size(15, 21);
+			this->tbZ->TabIndex = 9;
+			this->tbZ->Text = L"0";
 			// 
 			// MyForm
 			// 
@@ -195,12 +199,12 @@ namespace CppWinForm1 {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(545, 444);
 			this->Controls->Add(this->label3);
-			this->Controls->Add(this->textBox4);
+			this->Controls->Add(this->tbZ);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->textBox3);
+			this->Controls->Add(this->tbY);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->tbX);
+			this->Controls->Add(this->tbCoeff);
 			this->Controls->Add(this->bAddPol);
 			this->Controls->Add(this->lbVectorView);
 			this->Controls->Add(this->bEqual);
@@ -219,5 +223,31 @@ namespace CppWinForm1 {
 	System::Void parse(System::String^ inp) {
 		throw - 2531;
 	}
+private: System::Void bAddPol_Click(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		double c = Convert::ToDouble(tbCoeff->Text);
+		int x = Convert::ToInt32(tbX->Text);
+		int y = Convert::ToInt32(tbY->Text);
+		int z = Convert::ToInt32(tbZ->Text);
+
+		if (c == 0) {
+			model->loadBufferPolinom();
+			model->clrBufferPolinom();
+			return;
+		}
+		else {
+			Monom m = Monom{ c,x,y,z };
+			model->addMonomToBufferPolinom(m);
+			return;
+		}
+
+	}
+	catch (FormatException^ e) {
+		MessageBox::Show("Некорректный формат ввода!");
+	}
+	catch (EmptyPolinom e) {
+		MessageBox::Show(msclr::interop::marshal_as<String^>(e.getMessage()));
+	}
+}
 };
 }

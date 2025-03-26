@@ -14,3 +14,11 @@ public:
 		return s;
 	}
 };
+
+class EmptyPolinom : public Exceptions {
+public:
+	virtual std::string getMessage() {
+		std::string s = "Buffer polinom is empty!";
+		return s;
+	}
+};

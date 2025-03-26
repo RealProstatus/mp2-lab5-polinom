@@ -9,6 +9,9 @@ void Model::addMonomToBufferPolinom(Monom m) {
 }
 
 void Model::loadBufferPolinom() {
+    if (bufferPolinom.getSize() == 0) {
+        throw EmptyPolinom();
+    }
     polinomVector.push_back(bufferPolinom);
 }
 

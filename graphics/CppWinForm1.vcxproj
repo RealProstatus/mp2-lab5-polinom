@@ -138,10 +138,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\mp2-lab5-polinom\Polinom.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\mp2-lab5-polinom\Polinom.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MyForm.h">

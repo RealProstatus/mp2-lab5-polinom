@@ -1,6 +1,8 @@
 #pragma once
 
 #include"TList.h"
+#include<string>
+#include<sstream>
 #include<iostream>
 
 struct Monom {
@@ -39,6 +41,12 @@ struct Monom {
 		out << m.coeff << "x^" << m.x << "y^" << m.y << "z^" << m.z;
 		return out;
 	}
+
+	std::string getString() {
+		std::ostringstream out;
+		out << this;
+		return out.str();
+	}
 };
 
 class Polinom : public TList<Monom> {
@@ -56,4 +64,5 @@ public:
 	Polinom& operator*=(Polinom& p);
 
 	friend std::ostream& operator<<(std::ostream& out, Polinom& p);
+	std::string getString();
 };
