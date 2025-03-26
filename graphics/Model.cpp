@@ -74,3 +74,7 @@ void Model::mulPolinom(double cnst, int numP1) {
     polinomVector.push_back(res);
   }
 }
+
+const std::vector<Polinom>& Model::getPolinomVectorPtr() {
+    return polinomVector;
+}

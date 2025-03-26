@@ -23,4 +23,6 @@ public:
   void subPolinom(int indP1, int indP2);
   void mulPolinom(int indP1, int indP2);
   void mulPolinom(double cnst, int indP2);
+
+  const std::vector<Polinom>& getPolinomVectorPtr();
 };

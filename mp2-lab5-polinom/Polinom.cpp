@@ -195,8 +195,12 @@ std::string Polinom::getString() {
 	Node<Monom>* tmp = pCurrentNode;
 	Node<Monom>* tmp1 = pPreviousNode;
 
-	for (reset(); !(isEnd()); goNext()) {
-		out << getCurrentValue();
+	reset();
+	out << getCurrentValue();
+	goNext();
+	while (!(isEnd())) {
+		out << " + " << getCurrentValue();
+		goNext();
 	}
 
 	pCurrentNode = tmp;

@@ -232,6 +232,7 @@ private: System::Void bAddPol_Click(System::Object^ sender, System::EventArgs^ e
 
 		if (c == 0) {
 			model->loadBufferPolinom();
+			updListBox();
 			model->clrBufferPolinom();
 			return;
 		}
@@ -249,5 +250,19 @@ private: System::Void bAddPol_Click(System::Object^ sender, System::EventArgs^ e
 		MessageBox::Show(msclr::interop::marshal_as<String^>(e.getMessage()));
 	}
 }
+	   Void updListBox() {
+		   lbVectorView->Items->Clear();
+		   /*int i = 0;
+		   for (auto pol : model->getPolinomVectorPtr()) {
+			   String^ str =  
+			   lbVectorView->Items->Add(msclr::interop::marshal_as<String^>(pol.getString()));
+		   }*/
+		   auto ptr = model->getPolinomVectorPtr();
+		   for (int i = 0; i < ptr.size(); i++) {
+			   String^ str = "(" + (i + 1) + "): ";
+			   str += msclr::interop::marshal_as<String^>(ptr[i].getString());
+			   lbVectorView->Items->Add(str);
+		   }
+	   }
 };
 }
