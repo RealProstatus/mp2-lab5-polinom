@@ -19,10 +19,10 @@ public:
 
   void addPolinomToVector(Polinom p);
 
-  void addPolinom(int indP1, int indP2);
-  void subPolinom(int indP1, int indP2);
-  void mulPolinom(int indP1, int indP2);
-  void mulPolinom(double cnst, int indP2);
+  void addPolinom(int numP1, int numP2);
+  void subPolinom(int numP1, int numP2);
+  void mulPolinom(int numP1, int numP2);
+  void mulPolinom(double cnst, int numP2);
 
   const std::vector<Polinom>& getPolinomVectorPtr();
 };

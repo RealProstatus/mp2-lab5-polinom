@@ -3,6 +3,10 @@
 #include<msclr/marshal_cppstd.h>
 #include"Model.h"
 
+#include<stack>
+#include<sstream>
+#include<variant>
+
 namespace CppWinForm1 {
 
 	using namespace System;
@@ -22,6 +26,7 @@ namespace CppWinForm1 {
 		{
 			InitializeComponent();
 			model = new Model();
+			charStack = gcnew Stack();
 		}
 
 	protected:
@@ -62,7 +67,8 @@ namespace CppWinForm1 {
 
 	private:
 		Model* model;
-		System::ComponentModel::Container ^components;
+		Stack^ charStack;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -220,9 +226,161 @@ namespace CppWinForm1 {
 		throw - 2531;
 	}
 
-	System::Void parse(System::String^ inp) {
-		throw - 2531;
+	String^ parseToPostfix(System::String^ inp) {
+		std::string out = "";
+
+		String^ stmp = "(" + inp->Replace(" ", "") + ")"; // Удаляем пробелы
+		std::string str = msclr::interop::marshal_as<std::string>(stmp);
+
+		for (size_t i = 0; i < str.size(); i++) {
+			if (str[i] == '(') {
+				charStack->Push('(');
+			}
+			else if (isdigit(str[i]) || str[i] == '.' || str[i] == '[') {
+				// Обработка чисел и [id]
+				if (str[i] == '[') {
+					size_t id_end = str.find(']', i);
+					if (id_end == std::string::npos) {
+						MessageBox::Show("Ошибка: отсутствует ]");
+						return "";
+					}
+					out += str.substr(i, id_end - i + 1) + " ";
+					i = id_end;
+				}
+				else {
+					size_t idx;
+					try {
+						stod(str.substr(i), &idx);
+					}
+					catch (...) {
+						MessageBox::Show("Неправильное число");
+						return "";
+					}
+					out += str.substr(i, idx) + " ";
+					i += idx - 1;
+				}
+			}
+			else if (str[i] == ')') {
+				try {
+					while (Convert::ToChar(charStack->Peek()) != '(') {
+						out += Convert::ToChar(charStack->Pop());
+						out += " ";
+					}
+					charStack->Pop(); // Удаляем '('
+				}
+				catch (...) {
+					MessageBox::Show("Неправильные скобки");
+					return "";
+				}
+			}
+			else if (str[i] == '+' || str[i] == '-' || str[i] == '*') {
+				while (charStack->Count > 0 &&
+					opPriority(str[i]) <= opPriority(Convert::ToChar(charStack->Peek()))) {
+					out += Convert::ToChar(charStack->Pop());
+					out += " ";
+				}
+				charStack->Push(str[i]);
+			}
+			else {
+				MessageBox::Show("Недопустимый символ: " + str[i]);
+				return "";
+			}
+		}
+
+		// Удаляем последний пробел
+		if (!out.empty() && out.back() == ' ') out.pop_back();
+
+		return msclr::interop::marshal_as<String^>(out);
 	}
+	
+
+	int opPriority(char c) {
+		switch (c) {
+		case '(':
+			return 0;
+			break;
+		case '+':
+		case '-':
+			return 1;
+			break;
+		case '*':
+			return 2;
+			break;
+		default:
+			return -1;
+			break;
+		}
+	}
+
+	Void calculateFromPostfix(String^ inp) {
+		std::string postfix = msclr::interop::marshal_as<std::string>(inp);
+
+		using StackElement = std::variant<double, int>;
+		std::stack<StackElement> stack;
+
+		std::istringstream iss(postfix);
+		std::string token;
+
+		while (iss >> token) {
+			if (token[0] == '[') {
+				// Полином: извлекаем индекс
+				int index = std::stoi(token.substr(1, token.size() - 2));
+				stack.push(index);
+			}
+			else if (token == "+" || token == "-" || token == "*") {
+				// Бинарная операция
+				if (stack.size() < 2) throw std::runtime_error("Недостаточно операндов");
+
+				StackElement b = stack.top(); stack.pop();
+				StackElement a = stack.top(); stack.pop();
+
+				if (token == "+") {
+					// Сложение полиномов
+					if (auto p1 = std::get_if<int>(&a), p2 = std::get_if<int>(&b)) {
+						model->addPolinom(*p1, *p2);
+						stack.push(model->getPolinomVectorPtr().size() - 1);
+					}
+					else {
+						throw std::runtime_error("Сложение поддерживается только для полиномов");
+					}
+				}
+				else if (token == "-") {
+					// Вычитание полиномов
+					if (auto p1 = std::get_if<int>(&a), p2 = std::get_if<int>(&b)) {
+						model->subPolinom(*p1, *p2);
+						stack.push(polinomVector.size() - 1);
+					}
+					else {
+						throw std::runtime_error("Вычитание поддерживается только для полиномов");
+					}
+				}
+				else if (token == "*") {
+					// Умножение (полином*полином или константа*полином)
+					if (auto p1 = std::get_if<int>(&a), p2 = std::get_if<int>(&b)) {
+						model->mulPolinom(*p1, *p2);
+						stack.push(polinomVector.size() - 1);
+					}
+					else if (auto cnst = std::get_if<double>(&a), p = std::get_if<int>(&b)) {
+						model->mulPolinom(*cnst, *p);
+						stack.push(polinomVector.size() - 1);
+					}
+					else if (auto p = std::get_if<int>(&a), cnst = std::get_if<double>(&b)) {
+						model->mulPolinom(*cnst, *p);
+						stack.push(polinomVector.size() - 1);
+					}
+					else {
+						throw std::runtime_error("Неверные типы для умножения");
+					}
+				}
+			}
+			else {
+				// Константа
+				double cnst = std::stod(token);
+				stack.push(cnst);
+			}
+		}
+	}
+
 private: System::Void bAddPol_Click(System::Object^ sender, System::EventArgs^ e) {
 	try {
 		double c = Convert::ToDouble(tbCoeff->Text);
@@ -250,19 +408,15 @@ private: System::Void bAddPol_Click(System::Object^ sender, System::EventArgs^ e
 		MessageBox::Show(msclr::interop::marshal_as<String^>(e.getMessage()));
 	}
 }
-	   Void updListBox() {
-		   lbVectorView->Items->Clear();
-		   /*int i = 0;
-		   for (auto pol : model->getPolinomVectorPtr()) {
-			   String^ str =  
-			   lbVectorView->Items->Add(msclr::interop::marshal_as<String^>(pol.getString()));
-		   }*/
-		   auto ptr = model->getPolinomVectorPtr();
-		   for (int i = 0; i < ptr.size(); i++) {
-			   String^ str = "(" + (i + 1) + "): ";
-			   str += msclr::interop::marshal_as<String^>(ptr[i].getString());
-			   lbVectorView->Items->Add(str);
-		   }
-	   }
+	Void updListBox() {
+		lbVectorView->Items->Clear();
+
+		auto ptr = model->getPolinomVectorPtr();
+		for (int i = 0; i < ptr.size(); i++) {
+			String^ str = "[" + (i + 1) + "]: ";
+			str += msclr::interop::marshal_as<String^>(ptr[i].getString());
+			lbVectorView->Items->Add(str);
+		}
+	}
 };
 }
