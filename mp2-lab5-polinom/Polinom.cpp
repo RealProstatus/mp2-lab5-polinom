@@ -190,6 +190,11 @@ std::ostream& operator<<(std::ostream& out, Polinom& p) {
 }
 
 std::string Polinom::getString() {
+
+	if (size == 0) {
+		return "0";
+	}
+
 	std::ostringstream out;
 
 	Node<Monom>* tmp = pCurrentNode;
