@@ -223,7 +223,8 @@ namespace CppWinForm1 {
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		throw - 2531;
+		calculateFromPostfix(parseToPostfix(tbExpression->Text));
+		updListBox();
 	}
 
 	String^ parseToPostfix(System::String^ inp) {
@@ -329,47 +330,55 @@ namespace CppWinForm1 {
 			}
 			else if (token == "+" || token == "-" || token == "*") {
 				// Бинарная операция
-				if (stack.size() < 2) throw std::runtime_error("Недостаточно операндов");
+				if (stack.size() < 2) MessageBox::Show("Недостаточно операндов");
 
 				StackElement b = stack.top(); stack.pop();
 				StackElement a = stack.top(); stack.pop();
 
 				if (token == "+") {
 					// Сложение полиномов
-					if (auto p1 = std::get_if<int>(&a), p2 = std::get_if<int>(&b)) {
+					auto p1 = std::get_if<int>(&a);
+					auto p2 = std::get_if<int>(&b);
+					if (p1 && p2) {
 						model->addPolinom(*p1, *p2);
-						stack.push(model->getPolinomVectorPtr().size() - 1);
+						stack.push(Convert::ToInt32(model->getPolinomVectorPtr().size()));
 					}
 					else {
-						throw std::runtime_error("Сложение поддерживается только для полиномов");
+						MessageBox::Show("Сложение поддерживается только для полиномов");
 					}
 				}
 				else if (token == "-") {
 					// Вычитание полиномов
-					if (auto p1 = std::get_if<int>(&a), p2 = std::get_if<int>(&b)) {
+					auto p1 = std::get_if<int>(&a);
+					auto p2 = std::get_if<int>(&b);
+					if (p1 && p2) {
 						model->subPolinom(*p1, *p2);
-						stack.push(polinomVector.size() - 1);
+						stack.push(Convert::ToInt32(model->getPolinomVectorPtr().size()));
 					}
 					else {
-						throw std::runtime_error("Вычитание поддерживается только для полиномов");
+						MessageBox::Show("Вычитание поддерживается только для полиномов");
 					}
 				}
 				else if (token == "*") {
 					// Умножение (полином*полином или константа*полином)
-					if (auto p1 = std::get_if<int>(&a), p2 = std::get_if<int>(&b)) {
+					auto p1 = std::get_if<int>(&a);
+					auto p2 = std::get_if<int>(&b);
+					auto cnst_a = std::get_if<double>(&a);
+					auto cnst_b = std::get_if<double>(&b);
+					if (p1 && p2) {
 						model->mulPolinom(*p1, *p2);
-						stack.push(polinomVector.size() - 1);
+						stack.push(Convert::ToInt32(model->getPolinomVectorPtr().size()));
 					}
-					else if (auto cnst = std::get_if<double>(&a), p = std::get_if<int>(&b)) {
-						model->mulPolinom(*cnst, *p);
-						stack.push(polinomVector.size() - 1);
+					else if (cnst_a && p2) {
+						model->mulPolinom(*cnst_a, *p2);
+						stack.push(Convert::ToInt32(model->getPolinomVectorPtr().size()));
 					}
-					else if (auto p = std::get_if<int>(&a), cnst = std::get_if<double>(&b)) {
-						model->mulPolinom(*cnst, *p);
-						stack.push(polinomVector.size() - 1);
+					else if (p1 && cnst_b) {
+						model->mulPolinom(*cnst_b, *p1);
+						stack.push(Convert::ToInt32(model->getPolinomVectorPtr().size()));
 					}
 					else {
-						throw std::runtime_error("Неверные типы для умножения");
+						MessageBox::Show("Неверные типы для умножения");
 					}
 				}
 			}
